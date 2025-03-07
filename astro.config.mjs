@@ -30,10 +30,5 @@ export default defineConfig({
     drafts: true
   }), sitemap(), tailwind()],
   output: "server",
-  adapter: vercel({
-    webAnalytics: {
-      enabled: true,
-    },
-    maxDuration: 8,
-  })
+  adapter: vercelServerless(),
 });
