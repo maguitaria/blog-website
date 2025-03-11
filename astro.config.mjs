@@ -10,25 +10,27 @@ import vercel from "@astrojs/vercel/serverless";
 // https://astro.build/config
 export default defineConfig({
   site: siteConfig.site,
-  markdown: {
-    remarkPlugins: [remarkReadingTime],
-    drafts: true,
-    shikiConfig: {
-      theme: 'material-theme-palenight',
-      wrap: true
-    }
-  },
-  integrations: [mdx({
-    syntaxHighlight: 'shiki',
-    shikiConfig: {
-      experimentalThemes: {
-        light: 'vitesse-light',
-        dark: 'material-theme-palenight'
-      },
-      wrap: true
-    },
-    drafts: true
-  }), sitemap(), tailwind()],
-  output: "server",
-  adapter: vercel()
+	markdown: {
+		remarkPlugins: [remarkReadingTime],
+		drafts: true,
+		shikiConfig: {
+			theme: 'material-theme-palenight',
+			wrap: true
+		}
+	},
+	integrations: [
+		mdx({
+			syntaxHighlight: 'shiki',
+			shikiConfig: {
+				experimentalThemes: {
+					light: 'vitesse-light',
+					dark: 'material-theme-palenight',
+				  },
+				wrap: true
+			},
+			drafts: true
+		}),
+		sitemap(),
+		tailwind()
+  ]
 });
