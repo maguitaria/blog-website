@@ -1,4 +1,8 @@
 interface SiteConfig {
+	i18n: {
+		locales: string[]
+		defaultLocale: string
+	}
 	site: string
 	author: string
 	title: string
@@ -7,9 +11,14 @@ interface SiteConfig {
 	ogLocale: string
 	shareMessage: string
 	paginationSize: number
+	getLocale: (lang: string) => string
 }
 
 export const siteConfig: SiteConfig = {
+	i18n: {
+		locales: ['en', 'uk', 'ru'], // Supported languages
+		defaultLocale: 'en' // Default language
+	},
 	site: 'https://blog-website-gold-one.vercel.app/', // Write here your website url
 	author: 'Mariia Glushenkova', // Site author
 	title: 'Blog about life and tech', // Site title.
@@ -17,5 +26,6 @@ export const siteConfig: SiteConfig = {
 	lang: 'en-GB',
 	ogLocale: 'en_GB',
 	shareMessage: 'Share this post', // Message to share a post on social media
-	paginationSize: 6 // Number of posts per page
+	paginationSize: 6, // Number of posts per page
+	getLocale: (lang) => (['en', 'uk', 'ru'].includes(lang) ? lang : 'en') // Ensure valid language selection
 }

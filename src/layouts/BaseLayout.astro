@@ -6,17 +6,27 @@ import ProviderTheme from '@/components/ProviderTheme'
 import ProviderAnimations from '@/components/ProviderAnimations'
 import TwSizeIndicator from '@/components/TwSizeIndicator'
 import EditBlog from '@/components/editBlog'
+import { getCurrentLang, t } from 'src/components/utils/i18n'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 const { title, description, image, articleDate } = Astro.props
+
+const lang = getCurrentLang()
 ---
 
-<html lang='en' class='scroll-smooth'>
+<html lang={lang} class='scroll-smooth'>
 	<head>
-		<BaseHead title={title} description={description} ogImage={image} articleDate={articleDate} />
+		<BaseHead
+			title={t('title', lang)}
+			description={description}
+			ogImage={image}
+			articleDate={articleDate}
+		/>
 		<ProviderTheme />
 		<ProviderAnimations />
 	</head>
 
 	<body class='bg-white text-stone-950 dark:bg-[#0a0910] dark:text-white'>
+		<LanguageSwitcher />
 		<main
 			class='px-5 sm:mx-auto sm:max-w-2xl sm:px-8 lg:px-0 antialiased md:max-w-6xl grid gap-12 mt-4 overflow-hidden md:overflow-visible'
 		>

@@ -1,27 +1,48 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content'
-import BlogPost from '@/layouts/BlogPost'
-import Code from '@/components/mdx/Code'
+import Disqus from '@/components/Disqus'
 import ListRelatedPosts from '@/components/ListRelatedPosts'
+import SButton from '@/components/mdx/SButton'
 import Share from '@/components/Share'
 import TableOfContents from '@/components/TableOfContents'
-import { getPosts } from '@/utils'
-import SButton from '@/components/mdx/SButton'
-import Disqus from '@/components/Disqus'
 import { disqusConfig } from '@/data/disqus.config'
+import BlogPost from '@/layouts/BlogPost'
+import { getPosts } from '@/utils'
+import type { Props } from 'astro'
+import { Code } from 'astro:components'
+import { getCollection } from 'astro:content'
+import { getCurrentLang } from 'src/components/utils/i18n'
 
 const posts = await getCollection('blog')
+
+// Debugging: Log all found blog posts
+console.log(
+	'📝 Available Blog Posts:',
+	posts.map((p) => ({ slug: p.slug, lang: p.lang }))
+)
+
 export async function getStaticPaths() {
 	const posts = await getPosts()
-
 	return posts.map((post) => ({
-		params: { slug: post.slug },
-		props: post
+		params: { slug: post.slug }, // ✅ Remove language suffix
+		props: { post }
 	}))
 }
-type Props = CollectionEntry<'blog'>
 
-const post = Astro.props
+// Extract the requested slug from the URL
+const { slug } = Astro.params
+
+// Find the post, ignoring language suffix in URL
+
+let post = posts.find((p) => p.slug === slug)
+
+// 🚨 Handle case where post does not exist
+if (!post) {
+	throw new Error(`❌ Post not found: ${Astro.url.pathname}`)
+}
+// 🚨 Handle case where post does not exist
+if (!post) {
+	throw new Error(`❌ Post not found: ${Astro.url.pathname}`)
+}
 const MAX_POSTS = 3
 const getRelatedPosts = (post: Props) => {
 	const lowercaseTags = post.data.tags.map((tag) => tag.toLowerCase())
