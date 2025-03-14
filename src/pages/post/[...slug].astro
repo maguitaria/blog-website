@@ -7,44 +7,62 @@ import TableOfContents from '@/components/TableOfContents'
 import { disqusConfig } from '@/data/disqus.config'
 import BlogPost from '@/layouts/BlogPost'
 import { getPosts } from '@/utils'
-import type { Props } from 'astro'
 import { Code } from 'astro:components'
 import { getCollection } from 'astro:content'
 import { getCurrentLang } from 'src/components/utils/i18n'
-
 const posts = await getCollection('blog')
-
-// Debugging: Log all found blog posts
-console.log(
-	'📝 Available Blog Posts:',
-	posts.map((p) => ({ slug: p.slug, lang: p.lang }))
-)
+const availableLanguages = ['en', 'uk', 'ru'] // ✅ Add all supported languages
 
 export async function getStaticPaths() {
 	const posts = await getPosts()
-	return posts.map((post) => ({
-		params: { slug: post.slug }, // ✅ Remove language suffix
-		props: { post }
-	}))
+	const availableLanguages = ['en', 'uk', 'ru'] // ✅ Add all supported languages
+	// ✅ Generate paths for all language versions of each post
+	// ✅ Ensure only one language suffix is used
+	const paths = posts.flatMap((post) => {
+		const baseSlug = post.slug.replace(/-(en|uk|ru)$/, '') // ✅ Remove any existing suffix
+		return availableLanguages.map((lang) => ({
+			params: { slug: `${baseSlug}-${lang}` }, // ✅ Add suffix once
+			props: { post, lang }
+		}))
+	})
+
+	console.log(
+		'🔗 Generated Paths:',
+		paths.map((p) => p.params.slug)
+	) // ✅ Debug output
+	return paths
 }
 
-// Extract the requested slug from the URL
+// Extract slug from URL
 const { slug } = Astro.params
+// ✅ Extract base slug (remove any language suffix)
+const baseSlug = slug.replace(/-(en|uk|ru)$/, '')
 
-// Find the post, ignoring language suffix in URL
+// ✅ Detect the requested language from the URL slug
+const requestedLang = slug.match(/-(en|uk|ru)$/)?.[1] || getCurrentLang() // Use slug language or localStorage fallback
 
-let post = posts.find((p) => p.slug === slug)
+console.log('🌍 Requested Language:', requestedLang)
+
+// ✅ Find post with exact slug and requested language
+let post = posts.find((p) => p.slug === `${baseSlug}-${requestedLang}`)
+
+// ✅ Only fallback to English if no specific translation exists
+if (!post && requestedLang !== 'en') {
+	post = posts.find((p) => p.slug === `${baseSlug}-en`)
+}
 
 // 🚨 Handle case where post does not exist
 if (!post) {
 	throw new Error(`❌ Post not found: ${Astro.url.pathname}`)
 }
-// 🚨 Handle case where post does not exist
-if (!post) {
-	throw new Error(`❌ Post not found: ${Astro.url.pathname}`)
-}
+
+console.log('📝 Serving Post:', post.slug, 'Language:', post.data.lang)
+
+const { Content, headings, remarkPluginFrontmatter } = await post.render()
+
+// ✅ Get related posts
 const MAX_POSTS = 3
-const getRelatedPosts = (post: Props) => {
+const getRelatedPosts = (post) => {
 	const lowercaseTags = post.data.tags.map((tag) => tag.toLowerCase())
 	const relatedPosts = posts.filter(
 		(p) => p.slug !== post.slug && p.data.tags.some((t) => lowercaseTags.includes(t.toLowerCase()))
@@ -53,9 +71,6 @@ const getRelatedPosts = (post: Props) => {
 }
 
 const relatedPosts = getRelatedPosts(post)
-
-const { Content, headings, remarkPluginFrontmatter } = await post.render()
-
 const disqusEnabled = disqusConfig.enabled
 ---
 
@@ -66,7 +81,7 @@ const disqusEnabled = disqusConfig.enabled
 	readTime={remarkPluginFrontmatter.minutesRead}
 >
 	<div class='grid grid-cols-1 md:grid-cols-[20%_auto] gap-10 mt-8'>
-		<!-- aside  -->
+		<!-- Sidebar -->
 		<aside class='md:flex flex-col gap-8 hidden'>
 			<Share />
 			<div class='sticky top-24 self-start hidden md:block transition-all duration-200'>
@@ -74,13 +89,13 @@ const disqusEnabled = disqusConfig.enabled
 			</div>
 		</aside>
 
-		<!-- post -->
+		<!-- Post Content -->
 		<article class='max-w-full w-full'>
 			<div class='prose prose-lg md:prose-xl dark:prose-invert mb-12 min-w-full'>
 				<Content components={{ pre: Code, SButton }} />
 			</div>
 
-			<!-- related posts -->
+			<!-- Related Posts -->
 			<footer>
 				<h2 class='font-bold text-lg dark:text-white mb-6'>Related Posts</h2>
 				<ListRelatedPosts posts={relatedPosts} />

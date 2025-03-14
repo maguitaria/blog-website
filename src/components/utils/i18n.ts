@@ -4,25 +4,34 @@ import ru from '../../locales/ru.json'
 import { siteConfig } from '@/data/site.config'
 
 const translations = { en, uk, ru }
-// Safe way to check localStorage (only in browser)
+
+// ✅ Get stored or URL-defined language
 export function getCurrentLang(): string {
 	if (typeof window !== 'undefined') {
 		const storedLang = localStorage.getItem('lang')
-		const urlLang = new URLSearchParams(window.location.search).get('lang')
-		return siteConfig.getLocale(storedLang || urlLang || siteConfig.i18n.defaultLocale)
+		const urlParams = new URLSearchParams(window.location.search)
+		const urlLang = urlParams.get('lang')
+		return storedLang || urlLang || 'en' // ✅ Default to "en"
 	}
-	return siteConfig.i18n.defaultLocale // Default to English on server-side
+	return 'en' // Default for server-side rendering
 }
 
-// Translation function
+// ✅ Translation function with fallback
 export function t(key: string, lang: string = getCurrentLang()): string {
-	return translations[lang]?.[key] || key
+	return translations[lang]?.[key] || translations['en'][key] || key
 }
 
-// Set new language (browser only)
+// ✅ Set new language and update URL without removing parameters
 export function setLang(newLang: string): void {
 	if (typeof window !== 'undefined') {
 		localStorage.setItem('lang', newLang)
-		window.location.search = `?lang=${newLang}` // Updates URL
+
+		// ✅ Update URL without removing other query parameters
+		const urlParams = new URLSearchParams(window.location.search)
+		urlParams.set('lang', newLang)
+		window.history.replaceState(null, '', `${window.location.pathname}?${urlParams.toString()}`)
+
+		// ✅ Reload to apply changes dynamically
+		window.location.reload()
 	}
 }

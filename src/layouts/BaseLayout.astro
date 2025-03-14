@@ -7,7 +7,6 @@ import ProviderAnimations from '@/components/ProviderAnimations'
 import TwSizeIndicator from '@/components/TwSizeIndicator'
 import EditBlog from '@/components/editBlog'
 import { getCurrentLang, t } from 'src/components/utils/i18n'
-import LanguageSwitcher from '@/components/LanguageSwitcher'
 const { title, description, image, articleDate } = Astro.props
 
 const lang = getCurrentLang()
@@ -26,7 +25,6 @@ const lang = getCurrentLang()
 	</head>
 
 	<body class='bg-white text-stone-950 dark:bg-[#0a0910] dark:text-white'>
-		<LanguageSwitcher />
 		<main
 			class='px-5 sm:mx-auto sm:max-w-2xl sm:px-8 lg:px-0 antialiased md:max-w-6xl grid gap-12 mt-4 overflow-hidden md:overflow-visible'
 		>

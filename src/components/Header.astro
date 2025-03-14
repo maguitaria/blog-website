@@ -5,6 +5,9 @@ import Search from '@/components/Search'
 import TagIcon from './icons/TagIcon.astro'
 import ToggleTheme from './ToggleTheme.astro'
 import { SOCIALNETWORKS } from '@/data/links'
+import { getCurrentLang, setLang } from './utils/i18n'
+const availableLanguages = ['en', 'uk', 'ru']
+const currentLang = getCurrentLang() // ✅ Get currently selected language
 ---
 
 <header class='relative flex items-center h-12 font-semibold'>
@@ -41,6 +44,15 @@ import { SOCIALNETWORKS } from '@/data/links'
 		<div>
 			<Search />
 		</div>
+		<select id='langSwitcher'>
+			{
+				availableLanguages.map((lang) => (
+					<option value={lang} selected={lang === currentLang}>
+						{lang.toUpperCase()}
+					</option>
+				))
+			}
+		</select>
 		<ToggleTheme />
 		<button id='astro-header-drawer-button' type='button' class='md:ml-6 md:hidden'>
 			<MenuIcon />
