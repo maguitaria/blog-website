@@ -1,0 +1,31 @@
+---
+import { getCurrentLang } from './utils/i18n'
+
+const availableLanguages = ['en', 'uk', 'ru']
+const url = new URL(Astro.url) // ✅ Get the current URL
+const currentLang = url.searchParams.get('lang') || 'en'
+---
+
+<select id='langSwitcher'>
+	{
+		availableLanguages.map((lang) => (
+			<option value={lang} selected={lang === currentLang}>
+				{lang.toUpperCase()}
+			</option>
+		))
+	}
+</select>
+
+<script>
+	document.getElementById('langSwitcher').addEventListener('change', (event) => {
+		const selectedLang = event.target.value
+		const urlParams = new URLSearchParams(window.location.search)
+		urlParams.set('lang', selectedLang)
+
+		// ✅ Update URL without reloading the page
+		window.history.pushState(null, '', `${window.location.pathname}?${urlParams.toString()}`)
+
+		// ✅ Dispatch an event to tell the page to update content
+		document.dispatchEvent(new CustomEvent('languageChanged', { detail: selectedLang }))
+	})
+</script>

@@ -2,6 +2,7 @@ interface SiteConfig {
 	i18n: {
 		locales: string[]
 		defaultLocale: string
+		localeDetection: boolean // Automatically detect browser language
 	}
 	site: string
 	author: string
@@ -17,7 +18,8 @@ interface SiteConfig {
 export const siteConfig: SiteConfig = {
 	i18n: {
 		locales: ['en', 'uk', 'ru'], // Supported languages
-		defaultLocale: 'en' // Default language
+		defaultLocale: 'en', // Default language
+		localeDetection: true // Automatically detect browser language
 	},
 	site: 'https://blog-website-gold-one.vercel.app/', // Write here your website url
 	author: 'Mariia Glushenkova', // Site author

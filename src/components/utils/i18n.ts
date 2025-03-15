@@ -5,15 +5,17 @@ import { siteConfig } from '@/data/site.config'
 
 const translations = { en, uk, ru }
 
-// ✅ Get stored or URL-defined language
-export function getCurrentLang(): string {
-	if (typeof window !== 'undefined') {
-		const storedLang = localStorage.getItem('lang')
-		const urlParams = new URLSearchParams(window.location.search)
-		const urlLang = urlParams.get('lang')
-		return storedLang || urlLang || 'en' // ✅ Default to "en"
+export function getCurrentLang(urlSearch: URLSearchParams | null = null): string {
+	if (urlSearch) {
+		return urlSearch.get('lang') || 'en' // ✅ Read from URL
 	}
-	return 'en' // Default for server-side rendering
+
+	if (typeof window !== 'undefined') {
+		const urlParams = new URLSearchParams(window.location.search)
+		return urlParams.get('lang') || 'en' // ✅ Client-side detection
+	}
+
+	return 'en' // Default to English if nothing is found
 }
 
 // ✅ Translation function with fallback

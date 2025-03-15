@@ -1,5 +1,6 @@
 import { getCollection } from 'astro:content'
 import { CATEGORIES } from '@/data/categories'
+import { getCurrentLang } from 'src/components/utils/i18n'
 
 export const getCategories = async () => {
 	const posts = await getCollection('blog')
@@ -34,14 +35,14 @@ export const getTags = async () => {
 	return Array.from(tags)
 }
 
-export const getPostByTag = async (tag: string) => {
-	const posts = await getPosts()
-	const lowercaseTag = tag.toLowerCase()
-	return posts
-		.filter((post) => !post.data.draft)
-		.filter((post) => {
-			return post.data.tags.some((postTag) => postTag.toLowerCase() === lowercaseTag)
-		})
+export async function getPostByTag(tag: string) {
+	const posts = await getCollection('blog')
+
+	// ✅ Detect current language from URL
+	const lang = getCurrentLang()
+
+	// ✅ Filter posts by tag AND language
+	return posts.filter((post) => post.data.tags.includes(tag) && post.data.lang === lang)
 }
 
 export const filterPostsByCategory = async (category: string) => {
@@ -50,4 +51,3 @@ export const filterPostsByCategory = async (category: string) => {
 		.filter((post) => !post.data.draft)
 		.filter((post) => post.data.category.toLowerCase() === category)
 }
-
