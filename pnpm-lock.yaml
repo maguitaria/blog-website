@@ -29,13 +29,13 @@ importers:
         version: 3.0.4
       '@astrojs/tailwind':
         specifier: 5.1.0
-        version: 5.1.0(astro@4.0.8(typescript@5.8.2))(tailwindcss@3.3.5)
+        version: 5.1.0(astro@4.0.8(typescript@5.8.2))(tailwindcss@3.4.17)
       '@pagefind/default-ui':
         specifier: ^1.0.4
         version: 1.3.0
       '@tailwindcss/typography':
         specifier: 0.5.10
-        version: 0.5.10(tailwindcss@3.3.5)
+        version: 0.5.10(tailwindcss@3.4.17)
       '@tinacms/cli':
         specifier: ^1.5.30
         version: 1.9.2(@codemirror/language@6.0.0)(@types/react@19.0.10)(abstract-level@1.0.4)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.34.9)(scheduler@0.23.2)(sucrase@3.35.0)
@@ -88,8 +88,8 @@ importers:
         specifier: 2.0.0
         version: 2.0.0
       tailwindcss:
-        specifier: 3.3.5
-        version: 3.3.5
+        specifier: 3.4.17
+        version: 3.4.17
       tinacms:
         specifier: ^1.5.21
         version: 1.6.7(@babel/core@7.26.9)(@babel/template@7.26.9)(@types/react@19.0.10)(abstract-level@1.0.4)(jotai-optics@0.3.2(jotai@2.12.1(@types/react@19.0.10)(react@18.3.1))(optics-ts@2.4.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(scheduler@0.23.2)(sucrase@3.35.0)(typescript@5.8.2)
@@ -1166,6 +1166,12 @@ packages:
 
   '@graphql-tools/utils@10.8.4':
     resolution: {integrity: sha512-HpHBgcmLIE79jWk1v5Bm0Eb8MaPiwSJT/Iy5xIJ+GMe7yAKpCYrbjf7wb+UMDMkLkfEryvo3syCx8k+TMAZ9bA==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+
+  '@graphql-tools/utils@10.8.6':
+    resolution: {integrity: sha512-Alc9Vyg0oOsGhRapfL3xvqh1zV8nKoFUdtLhXX7Ki4nClaIJXckrA86j+uxEuG3ic6j4jlM1nvcWXRn/71AVLQ==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
@@ -3345,6 +3351,10 @@ packages:
     resolution: {integrity: sha512-daEUfaHbaMuAcor+FPAVK+pOCSzsAYhK6LN1y81EcakdqQEPQvjm74PTmfwfv8POg8pw4RyCv9LXB1e+mQDwqg==}
     engines: {node: '>=16.0.0'}
 
+  '@whatwg-node/promise-helpers@1.3.0':
+    resolution: {integrity: sha512-486CouizxHXucj8Ky153DDragfkMcHtVEToF5Pn/fInhUUSiCmt9Q4JVBa6UK5q4RammFBtGQ4C9qhGlXU9YbA==}
+    engines: {node: '>=16.0.0'}
+
   '@xobotyi/scrollbar-width@1.9.5':
     resolution: {integrity: sha512-N8tkAACJx2ww8vFMneJmaAgmjAG1tnVBZJRLRcx061tmsLRZHSEZSLuGWnwPtunsSLvSqXQ2wfp7Mgqg1I+2dQ==}
 
@@ -5377,10 +5387,6 @@ packages:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
 
-  lilconfig@2.1.0:
-    resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==}
-    engines: {node: '>=10'}
-
   lilconfig@3.1.3:
     resolution: {integrity: sha512-/vlFKAoH5Cgt3Ie+JLhRbwOsCQePABiU3tJ1egGvyQ+33R/vcwM2Zl2QR/LzjsBeItPt3oSVXapn+m4nQDvpzw==}
     engines: {node: '>=14'}
@@ -6022,8 +6028,8 @@ packages:
   nanoclone@0.2.1:
     resolution: {integrity: sha512-wynEP02LmIbLpcYw8uBKpcfF6dmg2vcpKqxeH5UcoKEYdExslsdUA4ugFauuaeYdTB76ez6gJW8XAZ6CgkXYxA==}
 
-  nanoid@3.3.9:
-    resolution: {integrity: sha512-SppoicMGpZvbF1l3z4x7No3OlIjP7QJvC9XR7AhZr1kL133KHnKPztkKDc+Ir4aJ/1VhTySrtKhrsycmrMQfvg==}
+  nanoid@3.3.10:
+    resolution: {integrity: sha512-vSJJTG+t/dIKAUhUDw/dLdZ9s//5OxcHqLaDWWrW4Cdq7o6tdLIczUkMXt2MBNmk6sJRZBZRXVixs7URY1CmIg==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -7313,11 +7319,6 @@ packages:
   tailwind-merge@2.6.0:
     resolution: {integrity: sha512-P+Vu1qXfzediirmHOC3xKGAYeZtPcV9g76X+xg2FD4tYgR71ewMA35Y3sCz3zhiN/dwefRpJX0yBcgwi1fXNQA==}
 
-  tailwindcss@3.3.5:
-    resolution: {integrity: sha512-5SEZU4J7pxZgSkv7FP1zY8i2TIAOooNZ1e/OGtxIEv6GltpoiXUqWvLy89+a10qYTB1N5Ifkuw9lqQkN9sscvA==}
-    engines: {node: '>=14.0.0'}
-    hasBin: true
-
   tailwindcss@3.4.17:
     resolution: {integrity: sha512-w33E2aCvSDP0tW9RZuNXadXlkHXqFzSkQew/aIa2i/Sj8fThxwovwlXHSPXTbAHwEIhBFXAedUhP2tueAKP8Og==}
     engines: {node: '>=14.0.0'}
@@ -8060,13 +8061,13 @@ snapshots:
       sitemap: 7.1.2
       zod: 3.24.2
 
-  '@astrojs/tailwind@5.1.0(astro@4.0.8(typescript@5.8.2))(tailwindcss@3.3.5)':
+  '@astrojs/tailwind@5.1.0(astro@4.0.8(typescript@5.8.2))(tailwindcss@3.4.17)':
     dependencies:
       astro: 4.0.8(typescript@5.8.2)
       autoprefixer: 10.4.20(postcss@8.5.3)
       postcss: 8.5.3
       postcss-load-config: 4.0.2(postcss@8.5.3)
-      tailwindcss: 3.3.5
+      tailwindcss: 3.4.17
     transitivePeerDependencies:
       - ts-node
 
@@ -8745,7 +8746,7 @@ snapshots:
 
   '@graphql-codegen/plugin-helpers@5.1.0(graphql@15.8.0)':
     dependencies:
-      '@graphql-tools/utils': 10.8.4(graphql@15.8.0)
+      '@graphql-tools/utils': 10.8.6(graphql@15.8.0)
       change-case-all: 1.0.15
       common-tags: 1.8.2
       graphql: 15.8.0
@@ -8756,7 +8757,7 @@ snapshots:
   '@graphql-codegen/schema-ast@4.1.0(graphql@15.8.0)':
     dependencies:
       '@graphql-codegen/plugin-helpers': 5.1.0(graphql@15.8.0)
-      '@graphql-tools/utils': 10.8.4(graphql@15.8.0)
+      '@graphql-tools/utils': 10.8.6(graphql@15.8.0)
       graphql: 15.8.0
       tslib: 2.6.3
 
@@ -8803,7 +8804,7 @@ snapshots:
       '@graphql-codegen/plugin-helpers': 5.1.0(graphql@15.8.0)
       '@graphql-tools/optimize': 2.0.0(graphql@15.8.0)
       '@graphql-tools/relay-operation-optimizer': 7.0.17(graphql@15.8.0)
-      '@graphql-tools/utils': 10.8.4(graphql@15.8.0)
+      '@graphql-tools/utils': 10.8.6(graphql@15.8.0)
       auto-bind: 4.0.0
       change-case-all: 1.0.15
       dependency-graph: 0.11.0
@@ -8861,14 +8862,14 @@ snapshots:
   '@graphql-tools/optimize@2.0.0(graphql@15.8.0)':
     dependencies:
       graphql: 15.8.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@graphql-tools/relay-operation-optimizer@7.0.17(graphql@15.8.0)':
     dependencies:
       '@ardatan/relay-compiler': 12.0.2(graphql@15.8.0)
-      '@graphql-tools/utils': 10.8.4(graphql@15.8.0)
+      '@graphql-tools/utils': 10.8.6(graphql@15.8.0)
       graphql: 15.8.0
-      tslib: 2.6.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - encoding
 
@@ -8887,7 +8888,16 @@ snapshots:
       cross-inspect: 1.0.1
       dset: 3.1.4
       graphql: 15.8.0
-      tslib: 2.6.3
+      tslib: 2.8.1
+
+  '@graphql-tools/utils@10.8.6(graphql@15.8.0)':
+    dependencies:
+      '@graphql-typed-document-node/core': 3.2.0(graphql@15.8.0)
+      '@whatwg-node/promise-helpers': 1.3.0
+      cross-inspect: 1.0.1
+      dset: 3.1.4
+      graphql: 15.8.0
+      tslib: 2.8.1
 
   '@graphql-tools/utils@9.2.1(graphql@15.8.0)':
     dependencies:
@@ -9798,13 +9808,13 @@ snapshots:
     dependencies:
       tailwindcss: 3.4.17
 
-  '@tailwindcss/typography@0.5.10(tailwindcss@3.3.5)':
+  '@tailwindcss/typography@0.5.10(tailwindcss@3.4.17)':
     dependencies:
       lodash.castarray: 4.4.0
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
-      tailwindcss: 3.3.5
+      tailwindcss: 3.4.17
 
   '@tailwindcss/typography@0.5.16(tailwindcss@3.4.17)':
     dependencies:
@@ -10794,7 +10804,7 @@ snapshots:
       clsx: 1.2.1
       jotai: 1.13.1(@babel/core@7.26.9)(@babel/template@7.26.9)(jotai-optics@0.3.2(jotai@2.12.1(@types/react@19.0.10)(react@18.3.1))(optics-ts@2.4.1))(react@18.3.1)
       lodash: 4.17.21
-      nanoid: 3.3.9
+      nanoid: 3.3.10
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-hotkeys-hook: 4.6.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -10827,7 +10837,7 @@ snapshots:
       clsx: 1.2.1
       jotai: 1.13.1(@babel/core@7.26.9)(@babel/template@7.26.9)(jotai-optics@0.3.2(jotai@2.12.1(@types/react@19.0.10)(react@18.3.1))(optics-ts@2.4.1))(react@18.3.1)
       lodash: 4.17.21
-      nanoid: 3.3.9
+      nanoid: 3.3.10
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-hotkeys-hook: 4.6.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -10863,7 +10873,7 @@ snapshots:
       jotai-optics: 0.3.2(jotai@2.12.1(@types/react@19.0.10)(react@18.3.1))(optics-ts@2.4.1)
       jotai-x: 1.2.4(@types/react@19.0.10)(jotai@2.12.1(@types/react@19.0.10)(react@18.3.1))(react@18.3.1)
       lodash: 4.17.21
-      nanoid: 3.3.9
+      nanoid: 3.3.10
       optics-ts: 2.4.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -10893,7 +10903,7 @@ snapshots:
       jotai-optics: 0.3.2(jotai@2.12.1(@types/react@19.0.10)(react@18.3.1))(optics-ts@2.4.1)
       jotai-x: 1.2.4(@types/react@19.0.10)(jotai@2.12.1(@types/react@19.0.10)(react@18.3.1))(react@18.3.1)
       lodash: 4.17.21
-      nanoid: 3.3.9
+      nanoid: 3.3.10
       optics-ts: 2.4.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -12402,7 +12412,11 @@ snapshots:
 
   '@whatwg-node/promise-helpers@1.2.4':
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.8.1
+
+  '@whatwg-node/promise-helpers@1.3.0':
+    dependencies:
+      tslib: 2.8.1
 
   '@xobotyi/scrollbar-width@1.9.5': {}
 
@@ -13070,7 +13084,7 @@ snapshots:
 
   cross-inspect@1.0.1:
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   cross-spawn@7.0.6:
     dependencies:
@@ -14812,8 +14826,6 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
-  lilconfig@2.1.0: {}
-
   lilconfig@3.1.3: {}
 
   lines-and-columns@1.2.4: {}
@@ -16023,7 +16035,7 @@ snapshots:
 
   nanoclone@0.2.1: {}
 
-  nanoid@3.3.9: {}
+  nanoid@3.3.10: {}
 
   napi-build-utils@2.0.0: {}
 
@@ -16402,7 +16414,7 @@ snapshots:
 
   postcss@8.5.3:
     dependencies:
-      nanoid: 3.3.9
+      nanoid: 3.3.10
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
@@ -17602,33 +17614,6 @@ snapshots:
       '@babel/runtime': 7.26.9
 
   tailwind-merge@2.6.0: {}
-
-  tailwindcss@3.3.5:
-    dependencies:
-      '@alloc/quick-lru': 5.2.0
-      arg: 5.0.2
-      chokidar: 3.6.0
-      didyoumean: 1.2.2
-      dlv: 1.1.3
-      fast-glob: 3.3.3
-      glob-parent: 6.0.2
-      is-glob: 4.0.3
-      jiti: 1.21.7
-      lilconfig: 2.1.0
-      micromatch: 4.0.8
-      normalize-path: 3.0.0
-      object-hash: 3.0.0
-      picocolors: 1.1.1
-      postcss: 8.5.3
-      postcss-import: 15.1.0(postcss@8.5.3)
-      postcss-js: 4.0.1(postcss@8.5.3)
-      postcss-load-config: 4.0.2(postcss@8.5.3)
-      postcss-nested: 6.2.0(postcss@8.5.3)
-      postcss-selector-parser: 6.1.2
-      resolve: 1.22.10
-      sucrase: 3.35.0
-    transitivePeerDependencies:
-      - ts-node
 
   tailwindcss@3.4.17:
     dependencies:
