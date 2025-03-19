@@ -1,0 +1,162 @@
+---
+title: 'Exploring 3D Programming with Three.js'
+description: '3D programming is no longer limited to game developers or animation studios. It has expanded into fields such as architecture, business presentations, product showcases, and even interactive websites. With libraries like Three.js, anyone can bring 3D elements into the browser and create immersive experiences. Whether you want to display a simple game, visualize an architectural model, or make your website stand out, Three.js offers an accessible entry into the world of 3D programming.'
+pubDate: 'Mar 19 2025'
+heroImage: 'src/assets/images/3d-programming/three-js-background.png'
+category: 'Tech'
+tags: ['3D', 'Programming']
+---
+
+# Exploring 3D Programming with Three.js
+
+## Introduction: Why 3D Programming Matters
+
+3D programming is no longer limited to game developers or animation studios. It has expanded into fields such as architecture, business presentations, product showcases, and even interactive websites. With libraries like Three.js, anyone can bring 3D elements into the browser and create immersive experiences. Whether you want to display a simple game, visualize an architectural model, or make your website stand out, Three.js offers an accessible entry into the world of 3D programming.
+
+## The Role of Three.js in 3D Development
+
+Three.js is a lightweight JavaScript library that enables 3D rendering directly in web browsers. Unlike professional software like Blender or Unreal Engine, Three.js is not designed for ultra-realistic rendering, but it excels in creating interactive 3D experiences that can be easily shared online. Many brands and designers use Three.js to create engaging portfolio websites (you can find examples by searching for 'brands 3D websites' like Cartier).
+
+- https://threejs.org/examples/ Great examples of projects
+
+### What Can You Do With Three.js?
+
+- **Create Interactive Websites** – Many companies use Three.js to add immersive elements to their brand presentations.
+- **Develop Simple Browser Games** – It is an excellent tool for building 3D-based web games.
+- **Showcase Architectural and Product Models** – Architects and product designers use it to display models in an interactive format.
+- **Engage Users with 3D Data Visualization** – Three.js can be used to create animated charts and 3D data-driven experiences.
+
+## Getting Started with Three.js Using Vite and React
+
+Instead of using plain HTML, it's recommended to use Three.js with modern frontend frameworks like React, bundled with Vite for a smoother development experience. Vite is a fast build tool that works well with modern JavaScript frameworks.
+
+### Setting Up Three.js with Vite and React
+
+1. **Install Vite and Create a React App:**
+
+   ```sh
+   npm create vite@latest my-threejs-app --template react
+   cd my-threejs-app
+   npm install
+   ```
+
+2. **Install Three.js:**
+
+   ```sh
+   npm install three
+   ```
+
+3. **Modify the App Component:**
+
+   Open `src/App.jsx` and replace its content with:
+
+   ```javascript
+   import { useEffect, useRef } from 'react'
+   import * as THREE from 'three'
+
+   function App() {
+   	const mountRef = useRef(null)
+
+   	useEffect(() => {
+   		const scene = new THREE.Scene()
+   		const camera = new THREE.PerspectiveCamera(
+   			75,
+   			window.innerWidth / window.innerHeight,
+   			0.1,
+   			1000
+   		)
+   		const renderer = new THREE.WebGLRenderer()
+   		renderer.setSize(window.innerWidth, window.innerHeight)
+   		mountRef.current.appendChild(renderer.domElement)
+
+   		const geometry = new THREE.BoxGeometry()
+   		const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+   		const cube = new THREE.Mesh(geometry, material)
+   		scene.add(cube)
+
+   		camera.position.z = 5
+
+   		function animate() {
+   			requestAnimationFrame(animate)
+   			cube.rotation.x += 0.01
+   			cube.rotation.y += 0.01
+   			renderer.render(scene, camera)
+   		}
+
+   		animate()
+
+   		return () => mountRef.current.removeChild(renderer.domElement)
+   	}, [])
+
+   	return <div ref={mountRef} />
+   }
+
+   export default App
+   ```
+
+This setup integrates Three.js within a React component, allowing you to build dynamic and interactive 3D web applications efficiently.
+
+## Finding Free 3D Models
+
+If you want to incorporate 3D models into your project, you don’t have to create everything from scratch. Many websites offer free 3D models:
+
+- **Sketchfab (https://sketchfab.com/)** – A vast library of free and paid models.
+- **Poly Haven (https://polyhaven.com/)** – High-quality open-source assets.
+- **CGTrader (https://www.cgtrader.com/free-3d-models)** – A mix of free and premium 3D models.
+- **TurboSquid (https://www.turbosquid.com/)** – Free and commercial 3D assets.
+- **OpenGameArt (https://opengameart.org/)** – Game-ready assets available for free.
+
+### Choosing the Right Model Format
+
+When importing 3D models from free libraries, it's highly recommended to use **GLTF (.gltf) or GLB (.glb)** formats. These formats are optimized for animations, interactivity, and efficient rendering in the browser. Other formats, such as OBJ and FBX, may require additional conversion or setup.
+
+However, be cautious—many free models that look great on websites may not always meet expectations when downloaded. Some common issues include:
+
+- Poorly optimized geometry
+- Missing textures or materials
+- Incorrect scaling or rotation
+- Low-quality details
+
+Before using a model, inspect it in a 3D viewer or test it within your scene to ensure it meets your needs.
+
+## Common Issues with Free 3D Models
+
+One common challenge with free 3D models is that they may not be correctly positioned within the X, Y, Z coordinates. This can lead to:
+
+- Models appearing too high or too low in the scene.
+- Objects being misaligned or off-center.
+- Incorrect scaling, making models appear too large or too small.
+
+### Fixing Positioning Issues
+
+1. **Center the Model:** Use Three.js’s `boundingBox` helper to adjust positioning.
+
+   ```javascript
+   const box = new THREE.Box3().setFromObject(model)
+   const center = box.getCenter(new THREE.Vector3())
+   model.position.sub(center) // Centers the model in the scene
+   ```
+
+2. **Manually Adjust Position:** If needed, move the model to fit your scene.
+
+   ```javascript
+   model.position.set(0, -1, 0) // Adjust Y-axis positioning
+   ```
+
+3. **Rescale the Model:** If the model is too big or too small, scale it accordingly.
+
+   ```javascript
+   model.scale.set(0.5, 0.5, 0.5) // Adjust size as needed
+   ```
+
+4. **Check Object Hierarchy:** Some models have incorrect pivots or multiple nested objects. Use the console to inspect the model:
+
+   ```javascript
+   console.log(model)
+   ```
+
+## The Future of 3D on the Web
+
+With the rise of interactive web experiences, 3D programming is becoming more accessible. Three.js is a perfect entry point for those interested in creating browser-based 3D applications. While it may not replace high-end tools like Blender for detailed projects, it provides an excellent way to add interactivity and enhance user engagement online.
+
+Using modern development tools like React and Vite makes working with Three.js even more powerful, enabling seamless integration and better performance. Many top brands already use it to create memorable digital experiences—why not give it a try?
