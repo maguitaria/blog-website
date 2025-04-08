@@ -2,6 +2,7 @@ astro:
   - paths:
       - "**/*.astro"
       - "src/layouts/**"
+      - "src/pages/**"
 
 blog:
   - paths:

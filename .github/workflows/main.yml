@@ -1,4 +1,4 @@
-name: Auto Merge Dev to Main
+name: Auto Merge Dev → Main with Labels
 
 on:
   push:
@@ -12,44 +12,54 @@ permissions:
 jobs:
   create-pr:
     runs-on: ubuntu-latest
-
+    outputs:
+      pr-number: ${{ steps.cpr.outputs.pull-request-number }}
     steps:
       - name: Checkout dev
         uses: actions/checkout@v4
         with:
           ref: development
 
-      - name: Create Pull Request to main
+      - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.PUSH_TO_MAIN }}
-          commit-message: "chore: sync development into main"
-          title: "🔄 Auto PR: Merge development → main"
-          body: "This pull request was created automatically by a GitHub Action."
+          commit-message: "chore: auto sync dev to main"
+          title: "chore: auto sync dev to main"
+          body: "This PR was automatically created."
           base: main
-          branch: dev-to-main-auto
+          branch: auto-dev-to-main
           delete-branch: true
 
-  auto-approve:
+  label-pr:
     needs: create-pr
-    if: ${{ needs.create-pr.outputs.pull-request-number }}
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
+      - name: Label the PR
+        uses: actions/labeler@v5
+        with:
+          repo-token: ${{ secrets.PUSH_TO_MAIN }}
+
+  approve-pr:
+    needs: label-pr
+    runs-on: ubuntu-latest
     steps:
       - name: Auto approve PR
         uses: hmarr/auto-approve-action@v3
         with:
           github-token: ${{ secrets.PUSH_TO_MAIN }}
 
-  auto-merge:
-    needs: auto-approve
+  enable-automerge:
+    needs: approve-pr
     runs-on: ubuntu-latest
-
     steps:
       - name: Enable auto-merge
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
           token: ${{ secrets.PUSH_TO_MAIN }}
-          pull-request-number: ${{ needs.create-pr.outputs.pull-request-number }}
+          pull-request-number: ${{ needs.create-pr.outputs.pr-number }}
           merge-method: squash
