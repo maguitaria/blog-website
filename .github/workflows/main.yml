@@ -1,35 +1,55 @@
-name: Auto Merge Dev into Main
+name: Auto Merge Dev to Main
 
 on:
   push:
     branches:
       - development
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-  merge:
+  create-pr:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout main
+      - name: Checkout dev
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: development
+
+      - name: Create Pull Request to main
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with:
           token: ${{ secrets.PUSH_TO_MAIN }}
+          commit-message: "chore: sync development into main"
+          title: "🔄 Auto PR: Merge development → main"
+          body: "This pull request was created automatically by a GitHub Action."
+          base: main
+          branch: dev-to-main-auto
+          delete-branch: true
 
-      - name: Fetch development
-        run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
-          git remote add origin_with_token https://x-access-token:${{ secrets.PUSH_TO_MAIN }}@github.com/${{ github.repository }}
-          git fetch origin_with_token development
-          git checkout main
-          git merge origin_with_token/development --no-ff --no-edit
+  auto-approve:
+    needs: create-pr
+    if: ${{ needs.create-pr.outputs.pull-request-number }}
+    runs-on: ubuntu-latest
 
-      - name: Run Tests
-        run: |
-          # Replace with your test command
-          echo "Run your tests here"
-          # Example: npm install && npm test
+    steps:
+      - name: Auto approve PR
+        uses: hmarr/auto-approve-action@v3
+        with:
+          github-token: ${{ secrets.PUSH_TO_MAIN }}
 
-      - name: Push to main
-        run: |
-          git push origin_with_token HEAD:main
+  auto-merge:
+    needs: auto-approve
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Enable auto-merge
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.PUSH_TO_MAIN }}
+          pull-request-number: ${{ needs.create-pr.outputs.pull-request-number }}
+          merge-method: squash
