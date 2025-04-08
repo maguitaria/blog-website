@@ -1,0 +1,31 @@
+name: Label & Comment on PR
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/labeler@v5
+        with:
+          repo-token: ${{ secrets.PUSH_TO_MAIN }}
+
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.PUSH_TO_MAIN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            👋 Thanks for your contribution!
+
+            ✅ Please ensure:
+            - [ ] Your title uses conventional commits (e.g., `feat:`, `fix:`)
+            - [ ] The build passes
+            - [ ] You ran `pnpm format` before pushing
+
+            🚀 Preview will be deployed via Vercel shortly.
