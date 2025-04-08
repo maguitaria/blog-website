@@ -1,6 +1,0 @@
-blog:
-  - "src/content/blog/**"
-
-config:
-  - ".github/**"
-  - "astro.config.*"
