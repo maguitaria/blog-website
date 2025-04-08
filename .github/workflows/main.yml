@@ -1,0 +1,35 @@
+name: Auto Merge Dev into Main
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch development
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git remote add origin_with_token https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git fetch origin_with_token development
+          git checkout main
+          git merge origin_with_token/development --no-ff --no-edit
+
+      - name: Run Tests
+        run: |
+          # Replace with your test command
+          echo "Run your tests here"
+          # Example: npm install && npm test
+
+      - name: Push to main
+        run: |
+          git push origin_with_token HEAD:main
