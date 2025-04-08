@@ -1,6 +1,21 @@
+astro:
+  - paths:
+      - "**/*.astro"
+      - "src/layouts/**"
+
 blog:
-  - "src/content/blog/**"
+  - paths:
+      - "src/content/blog/**"
 
 config:
-  - ".github/**"
-  - "astro.config.*"
+  - paths:
+      - ".github/**"
+      - "astro.config.*"
+      - "tsconfig.*"
+      - "**/package.json"
+
+styles:
+  - paths:
+      - "src/styles/**"
+      - "**/*.css"
+      - "**/*.scss"
