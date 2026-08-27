@@ -1,0 +1,59 @@
+name: Publish daily AI technology article
+
+on:
+  workflow_dispatch:
+  schedule:
+    # GitHub Actions uses UTC. This runs once each day at 07:00 UTC.
+    - cron: '0 7 * * *'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: daily-ai-article
+  cancel-in-progress: false
+
+jobs:
+  generate-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Generate an article from current technology topics
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+        run: node scripts/generate-daily-article.mjs
+
+      - name: Install dependencies
+        if: success()
+        run: corepack enable && pnpm install --frozen-lockfile
+
+      - name: Verify the site builds
+        if: success()
+        run: pnpm build
+
+      - name: Open or update a pull request
+        if: success()
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/daily-ai-article
+          base: ${{ github.event.repository.default_branch }}
+          delete-branch: false
+          title: 'content: publish daily technology article'
+          commit-message: 'content: publish daily technology article'
+          body: |
+            This pull request was created automatically by the daily technology article workflow.
+
+            The article was generated from current technology topics, then verified with `pnpm build`.
