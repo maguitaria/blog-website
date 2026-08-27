@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: daily-ai-article
@@ -42,15 +43,17 @@ jobs:
         if: success()
         run: pnpm build
 
-      - name: Commit and push the new article
+      - name: Open or update a pull request
         if: success()
-        run: |
-          if git diff --quiet -- src/content/blog; then
-            echo "No new article was generated."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/content/blog
-          git commit -m "content: publish daily technology article"
-          git push origin HEAD:${GITHUB_REF_NAME}
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/daily-ai-article
+          base: ${{ github.event.repository.default_branch }}
+          delete-branch: false
+          title: 'content: publish daily technology article'
+          commit-message: 'content: publish daily technology article'
+          body: |
+            This pull request was created automatically by the daily technology article workflow.
+
+            The article was generated from current technology topics, then verified with `pnpm build`.

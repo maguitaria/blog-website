@@ -177,7 +177,7 @@ draft: true <---
 
 ## 🤖 Daily AI technology articles
 
-The repository includes a scheduled GitHub Actions workflow at `.github/workflows/daily-ai-article.yml`. Once the `OPENAI_API_KEY` repository secret is configured, it runs daily, selects a current technology topic from Hacker News, generates a Markdown article with OpenAI, builds the site, and pushes the post to the current branch. It can also be run manually from the Actions tab.
+The repository includes a scheduled GitHub Actions workflow at `.github/workflows/daily-ai-article.yml`. Once the `OPENAI_API_KEY` repository secret is configured, it runs daily, selects a current technology topic from Hacker News, generates a Markdown article with OpenAI, builds the site, and opens or updates a pull request from the `automation/daily-ai-article` branch. It can also be run manually from the Actions tab.
 
 To configure it:
 
@@ -185,7 +185,7 @@ To configure it:
 2. Optionally add an Actions variable named `OPENAI_MODEL` (the default is `gpt-4.1-mini`).
 3. Ensure GitHub Actions has **Read and write permissions** under **Settings → Actions → General → Workflow permissions**.
 
-The workflow skips publishing if that day already has a post, and it only pushes after the generated content passes the Astro production build.
+The workflow skips publishing if that day already has a post, and it only opens or updates the pull request after the generated content passes the Astro production build. The workflow needs both **Read and write permissions** for contents and pull requests.
 
 ## Required properties:
 
