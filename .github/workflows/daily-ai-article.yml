@@ -1,0 +1,56 @@
+name: Publish daily AI technology article
+
+on:
+  workflow_dispatch:
+  schedule:
+    # GitHub Actions uses UTC. This runs once each day at 07:00 UTC.
+    - cron: '0 7 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-ai-article
+  cancel-in-progress: false
+
+jobs:
+  generate-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Generate an article from current technology topics
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+        run: node scripts/generate-daily-article.mjs
+
+      - name: Install dependencies
+        if: success()
+        run: corepack enable && pnpm install --frozen-lockfile
+
+      - name: Verify the site builds
+        if: success()
+        run: pnpm build
+
+      - name: Commit and push the new article
+        if: success()
+        run: |
+          if git diff --quiet -- src/content/blog; then
+            echo "No new article was generated."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/content/blog
+          git commit -m "content: publish daily technology article"
+          git push origin HEAD:${GITHUB_REF_NAME}
